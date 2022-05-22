@@ -1,0 +1,167 @@
+<BatteryStatusCard>:
+    id: battery_status_card
+    orientation: "horizontal"
+    style: "elevated"
+    elevation: 10
+    padding: 16
+    size_hint: 1, 0.1
+    md_bg_color: self.theme_cls.primary_color
+
+    MDLabel:
+        id: battery_string
+        theme_text_color: "Custom"
+        text_color: self.theme_cls.opposite_text_color
+        text: "Battery"
+        halign: "left"
+        valign: "middle"
+        padding_x: 15
+        size_hint: 0.4, 1
+        font_size: root.height/2
+
+    MDLabel:
+        id: battery_status
+        theme_text_color: "Custom"
+        text_color: self.theme_cls.opposite_text_color
+        text: root.battery_percentage_lbl
+        valign: "middle"
+        halign: "right"
+        size_hint: 0.5, 1
+        font_size: root.height/2
+
+#    MDIcon:
+#        id: battery_status_icon
+#        icon: root.battery_percentage_icon
+#        size_hint: None, 1
+#        font_size: root.height/1.5
+#        theme_text_color: "Custom"
+#        text_color: self.theme_cls.opposite_text_color
+#        halign: "right"
+#        pos_hint: {"center_y": 0.52}
+#        padding_x: 0
+
+<EmergencyTextButton>:
+    id: emergency_text_button
+    icon: "message-alert"
+    text: "Send emergency text"
+    halign: "center"
+    valign: "top"
+    size_hint: 1, None
+    font_style: "Button"
+    on_release: self.initiate_emergency_text_action()
+
+<EmergencyTextCard>:
+    id: emergency_text_card
+    orientation: "horizontal"
+    style: "elevated"
+    elevation: 10
+    padding: 16
+    size_hint: 1, 0.05
+    md_bg_color: self.theme_cls.primary_dark
+
+    MDLabel:
+        id: last_text_sent_string
+        theme_text_color: "Custom"
+        text_color: self.theme_cls.opposite_text_color
+        text: "Last emergency text"
+        halign: "left"
+        valign: "middle"
+        padding_x: 15
+        size_hint: 0.5, 1
+        font_size: root.height/2
+
+
+    MDLabel:
+        id: last_text_sent_status
+        theme_text_color: "Custom"
+        text_color: self.theme_cls.opposite_text_color
+        markup: True
+        text: root.last_text_sent_lbl
+        halign: "right"
+        valign: "middle"
+        size_hint: 0.6, 1
+        font_size: root.height/2
+
+<EmergencyContactListItem>:
+    IconLeftWidget:
+        icon: "account-box"
+
+    IconRightWidget:
+        icon: "trash-can"
+        on_release: root.parent.parent.open_delete_contact_dialog(root.emergency_contact_id, root.text)
+
+<AddEmergencyContactsContent>:
+    cols: 1
+    padding: [0, 10, 0, 0]
+    size_hint_y: None
+    height: self.minimum_height
+
+    MDTextField:
+        id: contact_name_input
+        write_tab: False
+        multiline: False
+        hint_text: "Contact name"
+        size_hint_y: None
+        height: self.minimum_height
+
+    MDTextField:
+        id: phone_number_input
+        write_tab: False
+        multiline: False
+        helper_text_mode: "on_error"
+        helper_text:
+        hint_text: "Phone number (+31 123456789)"
+        size_hint_y: None
+        height: self.minimum_height
+
+<EmergencyContactsView>:
+    id: emergency_contacts_view
+    padding: 60
+
+    EmergencyContactList:
+        id: emergency_contacts
+        pos_hint: {'top': 1}
+
+    MDFloatingActionButton:
+        id: add_emergency_contact_button
+        on_release: root.open_add_contact_dialog()
+        icon: "account-plus"
+        halign: "center"
+        valign: "center"
+        theme_icon_color: "Custom"
+        md_bg_color: self.theme_cls.primary_color
+        icon_color: self.theme_cls.opposite_text_color
+        pos_hint: {'right': 0.96, 'center_y': 0.07}
+
+<HomeView>:
+    id: home_view
+#    size: bottom_navigation.width, bottom_navigation.height
+    padding: 60
+    spacing: 70
+    orientation: "tb-lr"
+
+    BatteryStatusCard:
+
+    EmergencyTextCard:
+
+    EmergencyTextButton:
+
+
+MDScreen:
+    id: main_screen
+
+    MDBottomNavigation:
+        id: bottom_navigation
+        size: root.width, root.height
+
+        MDBottomNavigationItem:
+            id: home_screen
+            name: 'home'
+            text: 'Home'
+            icon: 'home'
+
+        MDBottomNavigationItem:
+            id: emergency_contacts_screen
+            name: 'contacts'
+            text: 'Emergency contacts'
+            icon: 'account'
+#            size_hint_y: 1 -

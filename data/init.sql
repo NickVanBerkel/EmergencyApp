@@ -1,0 +1,3 @@
+create table if not exists emergency_text_action (id INTEGER primary key autoincrement not null, battery_percentage INTEGER, battery_charging INTEGER, created_at text not null);
+create table if not exists emergency_contact (id INTEGER primary key autoincrement not null, name text not null, phone_number text not null, created_at text not null, updated_at text, deleted_at text);
+create table if not exists emergency_text_sent (id INTEGER primary key autoincrement not null, emergency_text_action_id INTEGER not null, emergency_contact_id INTEGER not null, result INTEGER not null, foreign key (emergency_text_action_id) references emergency_text_action(id), foreign key (emergency_contact_id) references emergency_contact(id))
